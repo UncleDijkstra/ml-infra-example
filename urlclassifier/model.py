@@ -1,19 +1,20 @@
-from os import pipe
 import pickle
-from os.path import join
-from urllib import parse
 from datetime import datetime
+from os import pipe
+from os.path import join
 from typing import List
+from urllib import parse
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 import tldextract
-from sklearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.preprocessing import OneHotEncoder
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder
 
 RANDOM_SEED = 26
+DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S"
 URL_CLASSES = {
     "Safe": 0,
     "Malicious": 1,
@@ -32,8 +33,9 @@ def encode_target(target: pd.Series) -> pd.Series:
 
 
 def save_model(model: Pipeline, dir_path: str) -> str:
-    file_name = join(dir_path, 'model.' + str(datetime.now()))
-    with open(file_name, 'wb') as f:
+    date = datetime.strftime(datetime.now(), DATETIME_FORMAT)
+    file_name = join(dir_path, f"model.{date}.pkl")
+    with open(file_name, "wb") as f:
         pickle.dump(model, f)
     return f'Saved as {file_name}'
 
