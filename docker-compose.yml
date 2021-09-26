@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  urlclassifier:
+    build:
+      context: .
+      dockerfile: docker/service/Dockerfile
+      args: 
+        MODEL_NAME: model.2021-09-07_17-42-20.pkl
+    restart: always
+    environment:
+      LOG_LEVEL: INFO
+    ports:
+      - 5000:5000
+    entrypoint: ["gunicorn"]
+    command:
+      - "--bind=0.0.0.0:5000"
+      - "--log-level=INFO"
+      - "--access-logfile='-'"
+      - "service.service:app"
+    
+  prometheus:
+    build:
+      context: .
+      dockerfile: docker/prometheus/Dockerfile
+    restart: always
+    ports:
+      - 9090:9090
+    volumes: 
+      - ./prometheus-storage:/prometheus
+  
+  grafana:
+    image: grafana/grafana
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana-storage:/var/lib/grafana
