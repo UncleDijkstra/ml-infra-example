@@ -10,8 +10,10 @@
 Установить:
 * docker
 * docker-compose
+* pip install -r requirements.txt -r test/requirement.txt -r service/service_requirements.txt -e .
 
 Запуск:
-docker-compose build
-docker-compose up -d
+docker-compose build  
+docker-compose up -d  
+python3 -m pytest test/  
 python3 -m pytest test/integration/test_service_build.py --image ml-infra-example_urlclassifier:latest --scope class 
