@@ -12,7 +12,7 @@
 * docker-compose
 * pip install -r requirements.txt -r test/requirement.txt -r service/service_requirements.txt -e .
 
-Запуск:
+Запуск:  
 docker-compose build  
 docker-compose up -d  
 python3 -m pytest test/  
